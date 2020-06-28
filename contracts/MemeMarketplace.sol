@@ -10,15 +10,19 @@ contract MemeMarketplace is ERC721 {
 
     constructor() public ERC721("MemeToken", "MEME") {}
 
-    function awardMemeToken(address player, string memory tokenURI)
+    event MemeCreated(address owner, string tokenURI);
+
+    function awardMemeToken(address owner, string memory tokenURI)
         public
         returns (uint256)
     {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
-        _mint(player, newItemId);
+        _mint(owner, newItemId);
         _setTokenURI(newItemId, tokenURI);
+
+        emit MemeCreated(owner, tokenURI);
 
         return newItemId;
     }
